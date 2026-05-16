@@ -1,43 +1,43 @@
 import SwiftUI
 
-enum ContentTab: String, Hashable {
+enum SkipperContentTab: String, Hashable {
     case welcome, home, settings
 }
 
-struct ContentView: View {
-    @AppStorage("tab") var tab = ContentTab.welcome
-    @AppStorage("name") var welcomeName = "StampIX"
+struct SkipperContentView: View {
+    @AppStorage("tab") var tab = SkipperContentTab.welcome
+    @AppStorage("name") var welcomeName = "Skipper"
     @AppStorage("appearance") var appearance = ""
     @State var viewModel = ViewModel()
 
     var body: some View {
         TabView(selection: $tab) {
             NavigationStack {
-                WelcomeView(welcomeName: $welcomeName)
+                SkipperWelcomeView(welcomeName: $welcomeName)
             }
             .tabItem { Label("Welcome", systemImage: "heart.fill") }
-            .tag(ContentTab.welcome)
+            .tag(SkipperContentTab.welcome)
 
             NavigationStack {
-                ItemListView()
+                SkipperItemListView()
                     .navigationTitle(Text("\(viewModel.items.count) Items"))
             }
             .tabItem { Label("Home", systemImage: "house.fill") }
-            .tag(ContentTab.home)
+            .tag(SkipperContentTab.home)
 
             NavigationStack {
-                SettingsView(appearance: $appearance, welcomeName: $welcomeName)
+                SkipperSettingsView(appearance: $appearance, welcomeName: $welcomeName)
                     .navigationTitle("Settings")
             }
             .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-            .tag(ContentTab.settings)
+            .tag(SkipperContentTab.settings)
         }
         .environment(viewModel)
         .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
     }
 }
 
-struct WelcomeView : View {
+struct SkipperWelcomeView : View {
     @State var heartBeating = false
     @Binding var welcomeName: String
 
@@ -58,7 +58,7 @@ struct WelcomeView : View {
     }
 }
 
-struct ItemListView : View {
+struct SkipperItemListView : View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
     var body: some View {
@@ -100,7 +100,7 @@ struct ItemListView : View {
     }
 }
 
-struct ItemView : View {
+struct SkipperItemView : View {
     @State var item: Item
     @Environment(ViewModel.self) var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
@@ -133,7 +133,7 @@ struct ItemView : View {
     }
 }
 
-struct SettingsView : View {
+struct SkipperSettingsView : View {
     @Binding var appearance: String
     @Binding var welcomeName: String
 
@@ -158,11 +158,11 @@ struct SettingsView : View {
 }
 
 /// A view that shows a blue heart on iOS and a green heart on Android.
-struct PlatformHeartView : View {
+struct SkipperPlatformHeartView : View {
     var body: some View {
         #if os(Android)
         ComposeView {
-            HeartComposer()
+            SkipperHeartComposer()
         }
         #else
         Text(verbatim: "💙")
@@ -172,7 +172,7 @@ struct PlatformHeartView : View {
 
 #if SKIP
 /// Use a ContentComposer to integrate Compose content. This code will be transpiled to Kotlin.
-struct HeartComposer : ContentComposer {
+struct SkipperHeartComposer : ContentComposer {
     @Composable func Compose(context: ComposeContext) {
         androidx.compose.material3.Text("💚", modifier: context.modifier)
     }
