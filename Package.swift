@@ -12,14 +12,16 @@ let package = Package(
     dependencies: [
         .package(url: "https://source.skip.tools/skip.git", from: "1.8.14"),
         .package(url: "https://source.skip.tools/skip-fuse-ui.git", from: "1.0.0"),
-        .package(url: "https://source.skip.dev/skip-qrcode.git", "0.0.1"..<"2.0.0")
+        .package(url: "https://source.skip.dev/skip-qrcode.git", "0.0.1"..<"2.0.0"),
+        .package(url: "https://source.skip.dev/skip-marketplace.git", "0.0.0"..<"2.0.0")
     ],
     targets: [
         .target(
             name: "StampIX",
             dependencies: [
                 .product(name: "SkipFuseUI", package: "skip-fuse-ui"),
-                .product(name: "SkipQRCode", package: "skip-qrcode")
+                .product(name: "SkipQRCode", package: "skip-qrcode"),
+                .product(name: "SkipMarketplace", package: "skip-marketplace")
             ],
             resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
